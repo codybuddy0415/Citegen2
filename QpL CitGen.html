@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>APA & MLA Citation Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background:white;
+            margin: 0;
+            padding: 40px;
+            transition: background 0.3s;
+        }
+
+        body.dark {
+            background: #121212;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #000;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: white;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background: #0084ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 16px;
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            color: #000;
+        }
+
+        .toggle {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .toggle input {
+            transform: scale(1.2);
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="toggle">
+            <label style="color:white;">
+                🌙 Dark Mode
+                <input type="checkbox" onclick="document.body.classList.toggle('dark')" hidden>
+            </label>
+        </div>
+
+        <h1>📘 APA & MLA Citation Generator</h1>
+
+        <label for="author">Author (Last, First)</label>
+        <input type="text" id="author" placeholder="e.g., Smith, John">
+
+        <label for="title">Title</label>
+        <input type="text" id="title" placeholder="e.g., Understanding Psychology">
+
+        <label for="publisher">Publisher</label>
+        <input type="text" id="publisher" placeholder="e.g., Academic Press">
+
+        <label for="year">Year</label>
+        <input type="text" id="year" placeholder="e.g., 2020">
+
+        <label for="format">Citation Style</label>
+        <select id="format">
+            <option value="apa">APA</option>
+            <option value="mla">MLA</option>
+        </select>
+
+        <button onclick="generateCitation()">Generate Citation</button>
+
+        <div class="result" id="citationResult"></div>
+    </div>
+
+    <script>
+        function generateCitation() {
+            const author = document.getElementById("author").value.trim();
+            const title = document.getElementById("title").value.trim();
+            const publisher = document.getElementById("publisher").value.trim();
+            const year = document.getElementById("year").value.trim();
+            const format = document.getElementById("format").value;
+            const resultDiv = document.getElementById("citationResult");
+
+            let result = "";
+
+            if (!author || !title || !publisher || !year) {
+                result = "❌ Please fill in all fields.";
+            } else if (format === "apa") {
+                const [last, first] = author.split(",");
+                const firstInitial = first ? first.trim().charAt(0).toUpperCase() + "." : "";
+                result = `${last.trim()}, ${firstInitial} (${year}). *${title}*. ${publisher}.`;
+            } else {
+                result = `${author}. "${title}." ${publisher}, ${year}.`;
+            }
+
+            resultDiv.textContent = result;
+        }
+    </script>
+</body>
+</html>
